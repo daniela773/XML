@@ -15,7 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+
 
 public class XML {
     public static void leerXML(){
