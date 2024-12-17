@@ -1,5 +1,6 @@
 package DataLayer;
 
+import DataBase.XML;
 import Logica.Alumno;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,13 +22,12 @@ public class AlumnoDAO {
 
     // Método para agregar un nuevo alumno al DataBase.XML
     public void agregar(Alumno alumno) {
+        Document doc=null;
+        Element root=null;
         try {
-            File file = new File(filePath);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(file);
 
-            Element root = doc.getDocumentElement();
+            doc=XML.accederDocumento();
+            root = doc.getDocumentElement();
 
 // Crear un nuevo elemento "alumno"
             Element nuevoAlumno = doc.createElement("alumno");
@@ -45,14 +45,13 @@ public class AlumnoDAO {
             nuevoAlumno.appendChild(nombre);
             nuevoAlumno.appendChild(notaFinal);
 
-
             root.appendChild(nuevoAlumno);
 
 // Guardar los cambios en el archivo DataBase.XML
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);
+            StreamResult result = new StreamResult(new File(filePath));
             transformer.transform(source, result);
 
         } catch (Exception e) {

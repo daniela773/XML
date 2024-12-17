@@ -22,38 +22,14 @@ import java.io.IOException;
 
 
 public class XML {
-    public static void leerXML(){
+    public static Document accederDocumento(){
+        File file=new File("xml/alumnos.xml");
+        DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder= null;
+        Document doc=null;
         try {
-            File file=new File("xml/alumnos.xml");
-            DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder= factory.newDocumentBuilder();
-            Document doc=builder.parse(file);
-            Alumno alumno =new Alumno();
-            int id;
-            String nombre;
-            int notaFinal;
-
-
-            NodeList nodeList=doc.getElementsByTagName("alumno");
-
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node=nodeList.item(i);
-                Element elemento;
-
-                if (node.getNodeType() == Node.ELEMENT_NODE){ //nodo con elementos y accedemos a uno de ellos
-                    elemento=(Element) node;
-
-                    id=Integer.parseInt(elemento.getElementsByTagName("id").item(0).getTextContent());
-                    nombre= elemento.getElementsByTagName("nombre").item(0).getTextContent(); //acceder a los datos dentro de la etiqueta, index 0 porq damos por suspuesto q solo hay una etiqueta de nombre en cada, sino hacer otro buvle for
-                    notaFinal=Integer.parseInt(elemento.getElementsByTagName("notaFinal").item(0).getTextContent());
-
-                    alumno.setId(id);
-                    alumno.setNombre(nombre);
-                    alumno.setNotaFinal(notaFinal);
-
-                }
-            }
-            ListaAlumnos.addItem(alumno);
+           builder=factory.newDocumentBuilder();
+           doc=builder.parse(file);
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
@@ -62,9 +38,10 @@ public class XML {
         } catch (SAXException e) {
             throw new RuntimeException(e);
         }
+        return doc;
     }
 
-    public static void agregarXML(ListaAlumnos lista){
+    public static void cambiar(ListaAlumnos lista){
 
         try {
             File file =new File("xml/alumnos.xml");
