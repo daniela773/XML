@@ -4,8 +4,6 @@ import Logica.Alumno;
 import Logica.ListaAlumnos;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,14 +20,14 @@ import java.io.IOException;
 
 
 public class XML {
-    public static Document accederDocumento(){
-        File file=new File("xml/alumnos.xml");
-        DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder= null;
-        Document doc=null;
+    public static Document accederDocumento() {
+        File file = new File("xml/alumnos.xml");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
+        Document doc = null;
         try {
-           builder=factory.newDocumentBuilder();
-           doc=builder.parse(file);
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(file);
 
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
@@ -41,17 +39,37 @@ public class XML {
         return doc;
     }
 
-    public static void cambiar(ListaAlumnos lista){
+    public static void guardarCambios(Document doc, File file) {
+
+        TransformerFactory transformerFactory;
+        Transformer transformer;
+        DOMSource source;
+        StreamResult result;
 
         try {
-            File file =new File("xml/alumnos.xml");
+
+            transformerFactory = TransformerFactory.newInstance();
+            transformer = transformerFactory.newTransformer();
+            source = new DOMSource(doc);
+            result = new StreamResult(file);
+            transformer.transform(source, result);
+
+        } catch (TransformerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void cambiar(ListaAlumnos lista) {
+
+        try {
+            File file = new File("xml/alumnos.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);
 
             Element root = doc.getDocumentElement();
 
-            for (Alumno alumno: lista.getListaAlumnos()) {
+            for (Alumno alumno : lista.getListaAlumnos()) {
 
                 Element nuevoAlumno = doc.createElement("alumno");
 

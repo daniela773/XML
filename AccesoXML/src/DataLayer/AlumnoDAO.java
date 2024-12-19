@@ -3,33 +3,21 @@ package DataLayer;
 import DataBase.XML;
 import Logica.Alumno;
 import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 public class AlumnoDAO {
-    private final String filePath;
-
-    // Constructor que recibe la ruta del archivo DataBase.XML
-    public AlumnoDAO(String filePath) {
-
-        this.filePath = filePath;
-    }
 
     // Método para agregar un nuevo alumno al DataBase.XML
-    public void agregar(Alumno alumno) {
+    public static void agregar(Alumno alumno) {
         Document doc=null;
         Element root=null;
         try {
-
+            File file = new File("xml/alumnos.xml");
             doc=XML.accederDocumento();
             root = doc.getDocumentElement();
 
-// Crear un nuevo elemento "alumno"
+            // Crear un nuevo elemento "alumno"
             Element nuevoAlumno = doc.createElement("alumno");
 
             Element id = doc.createElement("id");
@@ -47,12 +35,8 @@ public class AlumnoDAO {
 
             root.appendChild(nuevoAlumno);
 
-// Guardar los cambios en el archivo DataBase.XML
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(filePath));
-            transformer.transform(source, result);
+            // Guardar los cambios en el archivo DataBase.XML
+            XML.guardarCambios(doc,file);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,22 +44,21 @@ public class AlumnoDAO {
     }
 
     // Método para leer todos los alumno del DataBase.XML
-    public List<Alumno> leerTodos() {
+    public static List<Alumno> leerTodos() {
         int id;
         String nombre;
         int notaFinal;
+        Document doc;
         Node node;
         Element elemento;
-        List<Alumno> alumnos = new ArrayList<>();
+        List<Alumno> alumnos = new ArrayList<Alumno>();
 
         try {
-            File file = new File(filePath);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(file);
+            File file = new File("xml/alumnos.xml");
+
+            doc = XML.accederDocumento();
 
             NodeList nodeList = doc.getElementsByTagName("alumno");
-
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 node = nodeList.item(i);
@@ -97,13 +80,11 @@ public class AlumnoDAO {
     }
 
     // Método para actualizar un alumno existente
-    public void actualizar(int id, Alumno nuevoAlumno) {
+    public static void actualizar(int id, Alumno nuevoAlumno) {
         Element elemento;
         try {
-            File file = new File(filePath);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(file);
+            File file = new File("xml/alumnos.xml");
+            Document doc = XML.accederDocumento();
 
             NodeList nodeList = doc.getElementsByTagName("alumno");
 
@@ -122,11 +103,7 @@ public class AlumnoDAO {
             }
 
 // Guardar los cambios en el archivo DataBase.XML
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);
-            transformer.transform(source, result);
+            XML.guardarCambios(doc,file);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,12 +111,11 @@ public class AlumnoDAO {
     }
 
     // Método para eliminar un alumno por ID
-    public void eliminar(int id) {
+    public static void eliminar(int id) {
         try {
-            File file = new File(filePath);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(file);
+            File file = new File("xml/alumnos.xml");
+
+            Document doc = XML.accederDocumento();
 
             NodeList nodeList = doc.getElementsByTagName("alumno");
 
@@ -156,12 +132,8 @@ public class AlumnoDAO {
                 }
             }
 
-// Guardar los cambios en el archivo DataBase.XML
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(file);
-            transformer.transform(source, result);
+            // Guardar los cambios en el archivo DataBase.XML
+            XML.guardarCambios(doc,file);
 
         } catch (Exception e) {
             e.printStackTrace();
