@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class XML {
     public static Document accederDocumento() {
-        File file = new File("xml/alumnos.xml");
+        File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         Document doc = null;
@@ -62,7 +62,7 @@ public class XML {
     public static void cambiar(ListaAlumnos lista) {
 
         try {
-            File file = new File("xml/alumnos.xml");
+            File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(file);

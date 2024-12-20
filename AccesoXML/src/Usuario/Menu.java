@@ -5,13 +5,15 @@ import Logica.Alumno;
 public class Menu {
     public static int menuPrincipal(){
         int opcion;
-        opcion=Escaner.leerInt("Introduzca la opción que desee realizar\n" +
+        opcion=Escaner.leerInt("\nIntroduzca la opción que desee realizar\n" +
                 "1. Agregar un alumno al fichero\n" +
                 "2. Leer el fichero\n" +
                 "3. Actualizar el fichero\n" +
                 "4. Borrar un alumno\n" +
-                "5. Consultar nota media" +
-                "6. Mostrar estadística");
+                "5. Consultar nota media\n" +
+                "6. Mostrar estadística\n" +
+                "7. Ajax\n" +
+                "8. Salir\n");
 
         return opcion;
     }
@@ -39,14 +41,12 @@ public class Menu {
 
     }
 
-    public static Alumno menuActualizarAlumno(){
-        int id;
+    public static Alumno menuActualizarAlumno(int id){
         int idNuevo;
         String nombre;
         int notaFinal;
         Alumno alumno;
 
-        id=Escaner.leerInt("Escriba el id del alumno que quiere actualizar");
         idNuevo=Escaner.leerInt("Escriba el id del nuevo alumno");
         nombre=Escaner.leerString("Escriba el nombre del nuevo alumno");
         notaFinal=Escaner.leerInt("Escriba la nota media del nuevo alumno");

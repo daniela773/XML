@@ -1,4 +1,4 @@
-<alumnos>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><alumnos>
     <alumno>
         <id>1</id>
         <nombre>Pepe</nombre>
@@ -12,6 +12,6 @@
     <alumno>
         <id>3</id>
         <nombre>Lola</nombre>
-        <notaFinal>9</notaFinal>
+        <notaFinal>9</notaFinal>n
     </alumno>
-</alumnos>
+<alumno><id>4</id><nombre>Luis</nombre><notaFinal>6</notaFinal></alumno><alumno><id>4</id><nombre>Luis</nombre><notaFinal>6</notaFinal></alumno></alumnos>

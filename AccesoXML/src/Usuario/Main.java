@@ -1,5 +1,7 @@
 package Usuario;
 
+import Logica.LogicaMenu;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -18,6 +20,8 @@ public class Main {
         //	- Generar tabla estadísticas con los elementos del DataBase.XML
 
         //DataBase.XML.agregarXML();
+
+        LogicaMenu.ejecutarMenu();
 
     }
 }

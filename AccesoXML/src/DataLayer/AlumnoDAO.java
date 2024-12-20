@@ -3,7 +3,12 @@ package DataLayer;
 import DataBase.XML;
 import Logica.Alumno;
 import org.w3c.dom.*;
+
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 public class AlumnoDAO {
@@ -13,7 +18,7 @@ public class AlumnoDAO {
         Document doc=null;
         Element root=null;
         try {
-            File file = new File("xml/alumnos.xml");
+            File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
             doc=XML.accederDocumento();
             root = doc.getDocumentElement();
 
@@ -54,7 +59,7 @@ public class AlumnoDAO {
         List<Alumno> alumnos = new ArrayList<Alumno>();
 
         try {
-            File file = new File("xml/alumnos.xml");
+            File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
 
             doc = XML.accederDocumento();
 
@@ -68,7 +73,7 @@ public class AlumnoDAO {
 
                     id = Integer.parseInt(elemento.getElementsByTagName("id").item(0).getTextContent());
                     nombre = elemento.getElementsByTagName("nombre").item(0).getTextContent();
-                    notaFinal = Integer.parseInt(elemento.getElementsByTagName("duracion").item(0).getTextContent());
+                    notaFinal = Integer.parseInt(elemento.getElementsByTagName("notaFinal").item(0).getTextContent());
                     alumnos.add(new Alumno(id, nombre, notaFinal));
                 }
             }
@@ -79,11 +84,21 @@ public class AlumnoDAO {
         return alumnos;
     }
 
+    public static void leer( ){
+        List<Alumno> alumnos=leerTodos();
+
+        for(Alumno alumno:alumnos){
+            System.out.println("Id: "+alumno.getId()+"\n" +
+                    "Nombre: "+alumno.getNombre()+"\n" +
+                    "Nota final: "+alumno.getNotaFinal()+"\n");
+        }
+    }
+
     // Método para actualizar un alumno existente
     public static void actualizar(int id, Alumno nuevoAlumno) {
         Element elemento;
         try {
-            File file = new File("xml/alumnos.xml");
+            File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
             Document doc = XML.accederDocumento();
 
             NodeList nodeList = doc.getElementsByTagName("alumno");
@@ -113,7 +128,7 @@ public class AlumnoDAO {
     // Método para eliminar un alumno por ID
     public static void eliminar(int id) {
         try {
-            File file = new File("xml/alumnos.xml");
+            File file = new File("C:\\xampp\\htdocs\\dashboard\\datosajax\\datos\\alumnos.xml");
 
             Document doc = XML.accederDocumento();
 
@@ -137,6 +152,25 @@ public class AlumnoDAO {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void ajax(){
+        try {
+            // URL del archivo XML
+            URI uri = new URI("http://localhost/dashboard/datosajax/index.html");
+
+            // Verificar si el escritorio puede abrir una URL
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                desktop.browse(uri); // Abre la URL en el navegador predeterminado
+            } else {
+                System.out.println("El escritorio no es compatible.");
+            }
+        } catch (URISyntaxException e) {
+            System.out.println("URL mal formada: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error al abrir la URL: " + e.getMessage());
         }
     }
 }
